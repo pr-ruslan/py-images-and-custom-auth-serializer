@@ -4,6 +4,7 @@ from django.db.models import F, Count
 from rest_framework import viewsets, mixins, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
@@ -110,9 +111,10 @@ class MovieViewSet(
         return MovieSerializer
 
     @action(
-        methods={"POST"},
+        methods=["POST"],
         detail=True,
-        url_path="movie-upload-image",
+        url_path="upload-image",
+        parser_classes=(MultiPartParser,)
     )
     def upload_image(self, request, pk):
         movie = self.get_object()
